@@ -33,7 +33,7 @@
                 .card .profile--wrapper {
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
+                    gap: 0.5em;
                     margin-bottom: 1em;
                 }
 
@@ -43,36 +43,22 @@
                     height: 50px;
                 }
 
-                .card .profile--wrapper .avatar:before {
-                    content: '';
-                    width: 18px;
-                    height: 18px;
-                    background-size: 18px 18px;
-                    background-image: url({{ image64(assets.ps_plus) }});
-                    position: absolute;
-                    right: -7px;
-                    bottom: -5px;
-                    z-index: 1;
-                }
-
                 .card .profile--wrapper .avatar img {
                     width: 50px;
                     height: 50px;
                     border-radius: 50%;
                 }
 
-                .card .profile--wrapper img.country {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 0.3em;
-                }
-
                 .card .profile--wrapper .name {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: 1.125em;
-                    line-height: 1.75em;
+                    gap: 5px;
+                }
+
+                .card .profile--wrapper .name img {
+                    width: 15px;
+                    height: 15px;
                 }
 
                 .card .trophy--summary {
@@ -218,8 +204,8 @@
                 <div class="profile--wrapper">
                     <div class="avatar"><img src="{{ image64(assets.avatar) }}"/></div>
                     <div class="name">
-                        <img class="country" src="{{ image64(assets.flag) }}"/>
-                        <div>Robin Ingelbrecht</div>
+                        <span>Robin Ingelbrecht</span>
+                        <img src="{{ image64(assets.ps_plus) }}"/>
                     </div>
                 </div>
                 <div class="trophy--summary">
