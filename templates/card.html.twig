@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" width="400" height="580">
+    <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <style>
+                {% for font in fonts %}
+                @font-face {
+                    font-family: {{ font.family }};
+                    font-style: {{ font.style }};
+                    font-weight: {{ font.weight }};
+                    src: url({{ font64(font.src) }}) format("woff2");
+                    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+                }
+
+                {% endfor %}
+
+                .text-xs {
+                    font-size: 0.75rem;
+                    line-height: 1rem;
+                }
+
+                .card {
+                    font-family: Poppins, sans-serif;
+                    color: rgb(255 254 255);
+                    font-weight: 200;
+                    width: 400px;
+                    height: 580px;
+                    padding: 1em;
+                    background-image: linear-gradient(to bottom, #1E1D21, #24232A);
+                    border-radius: 0.375rem;
+                    box-sizing: border-box;
+                }
+
+                .card .profile--wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 1em;
+                }
+
+                .card .profile--wrapper .avatar {
+                    position: relative;
+                    width: 50px;
+                    height: 50px;
+                }
+
+                .card .profile--wrapper .avatar:before {
+                    content: '';
+                    width: 18px;
+                    height: 18px;
+                    background-size: 18px 18px;
+                    background-image: url({{ image64(assets.ps_plus) }});
+                    position: absolute;
+                    right: -7px;
+                    bottom: -5px;
+                    z-index: 1;
+                }
+
+                .card .profile--wrapper .avatar img {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                }
+
+                .card .profile--wrapper img.country {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 0.3em;
+                }
+
+                .card .profile--wrapper .name {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.125em;
+                    line-height: 1.75em;
+                }
+
+                .card .trophy--summary {
+                    padding: 1rem;
+                    background-color: rgb(47 46 53);
+                    border-radius: 0.375rem;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 1em;
+                }
+
+                .card .trophy--summary .trophy {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 60px;
+                    height: 95px;
+                }
+
+                .card .trophy--summary .trophy img {
+                    height: 60px;
+                }
+
+                .card .slider {
+                    position: relative;
+                }
+
+                .card .slider .slide {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 0;
+                    opacity: 0;
+                    -webkit-backface-visibility: hidden;
+                    -webkit-animation: slideAnimation 15s linear infinite 0s;
+                    -moz-animation: slideAnimation 15s linear infinite 0s;
+                    -o-animation: slideAnimation 15s linear infinite 0s;
+                    animation: slideAnimation 15s linear infinite 0s;
+                }
+
+                .card .slider .slide.slide--2 {
+                    -webkit-animation-delay: 5s;
+                    -moz-animation-delay: 5s;
+                    -o-animation-delay: 5s;
+                    animation-delay: 5s;
+                }
+
+                .card .slider .slide.slide--3 {
+                    -webkit-animation-delay: 10s;
+                    -moz-animation-delay: 10s;
+                    -o-animation-delay: 10s;
+                    animation-delay: 10s;
+                }
+
+                @keyframes slideAnimation {
+                    0% {
+                        opacity: 0;
+                        animation-timing-function: ease-in;
+                    }
+
+                    2% {
+                        opacity: 1;
+                        animation-timing-function: ease-out;
+                    }
+
+                    31% {
+                        opacity: 1;
+                    }
+
+                    33% {
+                        opacity: 0;
+                    }
+
+                    100% {
+                        opacity: 0
+                    }
+                }
+
+                .card .slider .slide .slide--content {
+                    margin-top: 0.4em;
+                }
+
+                .card .slider .slide--latest-trophies .trophy {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.75rem 1rem;
+                    border-radius: 0.375rem;
+                    background-image: linear-gradient(to bottom, #201F27, #2f2e35);
+                }
+
+                .card .slider .slide--latest-trophies .trophy {
+                    border-bottom: 2px solid #FFFEFF;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .icon {
+                    min-width: 56px;
+                    max-width: 56px;
+                    margin-right: 0.75rem;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .icon img {
+                    width: 100%;
+                    border-radius: 0.375rem;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .wrapper {
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .wrapper .info {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 0.75rem;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .wrapper .info > div {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .card .slider .slide--latest-trophies .trophy .wrapper .info .grade {
+                    margin-right: 0.5rem;
+                }
+
+                .card .slider .slide--latest-trophies .grade,
+                .card .slider .slide--latest-trophies .grade img {
+                    width: 20px;
+                    height: 22px;
+                }
+
+                .card .slider .slide--latest-trophies .rarity,
+                .card .slider .slide--latest-trophies .rarity img {
+                    width: 25px;
+                    height: 25px;
+                }
+            </style>
+
+            <div class="card">
+                <div class="profile--wrapper">
+                    <div class="avatar"><img src="{{ image64(assets.avatar) }}"/></div>
+                    <div class="name">
+                        <img class="country" src="{{ image64(assets.flag) }}"/>
+                        <div>Robin Ingelbrecht</div>
+                    </div>
+                </div>
+                <div class="trophy--summary">
+                    <div class="trophy trophy--platinum">
+                        <img src="{{ image64(assets.trophy.platinum) }}"/>
+                        <span>0</span>
+                    </div>
+                    <div class="trophy trophy--gold">
+                        <img src="{{ image64(assets.trophy.gold) }}"/>
+                        <span>0</span>
+                    </div>
+                    <div class="trophy trophy--silver">
+                        <img src="{{ image64(assets.trophy.silver) }}"/>
+                        <span>4</span>
+                    </div>
+                    <div class="trophy trophy--bronze">
+                        <img src="{{ image64(assets.trophy.bronze) }}"/>
+                        <span>19</span>
+                    </div>
+                </div>
+                <div class="slider">
+                    <div class="slide slide--1 slide--latest-trophies">
+                        <div class="slide--title">Latest trophies</div>
+                        <div class="slide--content">
+                            {% for trophy in latest_trophies %}
+                                <div class="trophy">
+                                    <div class="icon">
+                                        <img src="{{ image64(trophy.icon) }}"/>
+                                    </div>
+                                    <div class="wrapper">
+                                        <div class="title">{{ trophy.title }}</div>
+                                        <div class="description text-xs">{{ trophy.description }}</div>
+                                        <div class="info">
+                                            <div>
+                                                <div class="grade grade--bronze">
+                                                    <img src="{{ image64(trophy.grade) }}"/>
+                                                </div>
+                                                <div class="rarity rarity--rare">
+                                                    <img src="{{ image64(trophy.rarity) }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="earned-on text-xs">{{ trophy.earned_on }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="slide slide--2">
+                        SLIDE 2
+                    </div>
+                    <div class="slide slide--3">
+                        SLIDE 3
+                    </div>
+                </div>
+            </div>
+        </div>
+    </foreignObject>
+</svg>
