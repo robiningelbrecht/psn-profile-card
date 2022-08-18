@@ -61,6 +61,42 @@
                     height: 15px;
                 }
 
+                .card .level--summary{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                    margin-bottom: 1em;
+                }
+
+                .card .level--summary .level{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .card .level--summary .level img {
+                    width: 60px;
+                    height: 60px;
+                }
+
+                .card .level--summary .level--progress{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    width: 34px;
+                    height: 34px;
+                    padding: 10px;
+                    border: 2px solid;
+                }
+
+                .card .level--summary .total--trophies{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.3em
+                }
+
                 .card .trophy--summary {
                     padding: 1rem;
                     background-color: rgb(47 46 53);
@@ -76,7 +112,7 @@
                     align-items: center;
                     justify-content: space-between;
                     width: 60px;
-                    height: 95px;
+                    height: 80px;
                 }
 
                 .card .trophy--summary .trophy img {
@@ -208,22 +244,35 @@
                         <img src="{{ image64(assets.ps_plus) }}"/>
                     </div>
                 </div>
-                <div class="trophy--summary">
+                <div class="level--summary">
+                    <div class="level">
+                        <img src="{{ image64(assets.level) }}"/>
+                        <span class="text-xs">Level 531</span>
+                    </div>
+                    <div class="level--progress">
+                       42%
+                    </div>
+                    <div class="total--trophies">
+                        <span>6087</span>
+                        <span class="text-xs">Total trophies</span>
+                    </div>
+                </div>
+                <div class="trophy--summary text-xs">
                     <div class="trophy trophy--platinum">
                         <img src="{{ image64(assets.trophy.platinum) }}"/>
-                        <span>0</span>
+                        <span>233</span>
                     </div>
                     <div class="trophy trophy--gold">
                         <img src="{{ image64(assets.trophy.gold) }}"/>
-                        <span>0</span>
+                        <span>2193</span>
                     </div>
                     <div class="trophy trophy--silver">
                         <img src="{{ image64(assets.trophy.silver) }}"/>
-                        <span>4</span>
+                        <span>1325</span>
                     </div>
                     <div class="trophy trophy--bronze">
                         <img src="{{ image64(assets.trophy.bronze) }}"/>
-                        <span>19</span>
+                        <span>2336</span>
                     </div>
                 </div>
                 <div class="slider">
@@ -255,10 +304,10 @@
                         </div>
                     </div>
                     <div class="slide slide--2">
-                        SLIDE 2
+                        Last played games
                     </div>
                     <div class="slide slide--3">
-                        SLIDE 3
+                        Rarest trophies
                     </div>
                 </div>
             </div>
