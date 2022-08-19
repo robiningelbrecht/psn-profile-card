@@ -1,0 +1,20 @@
+<div class="row trophy">
+    <div class="icon">
+        <img src="{{ image64(trophy.icon) }}"/>
+    </div>
+    <div class="wrapper">
+        <div class="title">{{ trophy.title }}</div>
+        <div class="description text-xs">{{ trophy.game }}</div>
+        <div class="info">
+            <div>
+                <div class="grade grade--bronze">
+                    <img src="{{ image64(trophy.grade) }}"/>
+                </div>
+                <div class="rarity rarity--rare">
+                    <img src="{{ image64(trophy.rarity) }}"/>
+                </div>
+            </div>
+            <div class="earned-on text-xs">{{ trophy.earned_on }}</div>
+        </div>
+    </div>
+</div>

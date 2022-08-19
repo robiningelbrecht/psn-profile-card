@@ -1,0 +1,29 @@
+<div class="row game">
+    <div class="icon">
+        <img src="{{ image64(game.icon) }}"/>
+    </div>
+    <div class="wrapper">
+        <div class="title">{{ game.title }}</div>
+        <div class="trophies">
+            <div class="inner">
+                <div class="trophy trophy--platinum">
+                    <img src="{{ image64(assets.trophy.platinum) }}"/>
+                    <span>{{ game.trophies.platinum }}</span>
+                </div>
+                <div class="trophy trophy--gold">
+                    <img src="{{ image64(assets.trophy.gold) }}"/>
+                    <span>{{ game.trophies.gold }}</span>
+                </div>
+                <div class="trophy trophy--silver">
+                    <img src="{{ image64(assets.trophy.silver) }}"/>
+                    <span>{{ game.trophies.silver }}</span>
+                </div>
+                <div class="trophy trophy--bronze">
+                    <img src="{{ image64(assets.trophy.bronze) }}"/>
+                    <span>{{ game.trophies.bronze }}</span>
+                </div>
+            </div>
+            <div class="progress">{{ game.progress }}%</div>
+        </div>
+    </div>
+</div>

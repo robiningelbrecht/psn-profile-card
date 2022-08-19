@@ -19,6 +19,18 @@ class CacheRebuilder
     {
         $template = $this->twig->load('card.html.twig');
         $render = $template->render([
+            'profile' => [
+                'name' => 'Robin Ingelbrecht',
+                'level' => 531,
+                'level_progress' => 41,
+                'trophies' => [
+                    'total' => 6087,
+                    'platinum' => 233,
+                    'gold' => 2193,
+                    'silver' => 1325,
+                    'bronze' => 2336,
+                ],
+            ],
             'assets' => [
                 'avatar' => dirname(__DIR__) . '/assets/avatar.png',
                 'flag' => dirname(__DIR__) . '/assets/flag.png',
@@ -45,6 +57,7 @@ class CacheRebuilder
                     'icon' => 'https://playstation-trophy-cards.robiningelbrecht.be/assets/profile/trophies/2S69db6a.png',
                     'title' => '1000 Talismans Shot',
                     'description' => 'Shoot 1,000 talismans.',
+                    'game' => 'The Pathless',
                     'grade' => dirname(__DIR__) . '/assets/trophies/bronze.png',
                     'rarity' => dirname(__DIR__) . '/assets/rarity/ultra-rare.png',
                     'earned_on' => '12/24/2021 1:17PM',
@@ -53,8 +66,33 @@ class CacheRebuilder
                     'icon' => 'https://playstation-trophy-cards.robiningelbrecht.be/assets/profile/trophies/2S69db6a.png',
                     'title' => '1000 Talismans Shot',
                     'description' => 'Shoot 1,000 talismans.',
+                    'game' => 'The Pathless',
                     'grade' => dirname(__DIR__) . '/assets/trophies/bronze.png',
                     'rarity' => dirname(__DIR__) . '/assets/rarity/rare.png',
+                    'earned_on' => '12/24/2021 1:17PM',
+                ],
+            ],
+            'games_played' => [
+                [
+                    'icon' => 'https://i.psnprofiles.com/games/cae1c8/Mc61b6c.png',
+                    'title' => 'Yakuza: Like A Dragon',
+                    'progress' => 20,
+                    'trophies' => [
+                        'platinum' => 0,
+                        'gold' => 1,
+                        'silver' => 2,
+                        'bronze' => 3,
+                    ],
+                ],
+            ],
+            'rarest_trophies' => [
+                [
+                    'icon' => 'https://i.psnprofiles.com/games/4d4c0b/trophies/17M070c1d.png',
+                    'title' => 'Blue series clear',
+                    'description' => 'Get a silver medal on every blue track.',
+                    'game' => 'Track Mania: Turbo',
+                    'grade' => dirname(__DIR__) . '/assets/trophies/silver.png',
+                    'rarity' => dirname(__DIR__) . '/assets/rarity/ultra-rare.png',
                     'earned_on' => '12/24/2021 1:17PM',
                 ],
             ],

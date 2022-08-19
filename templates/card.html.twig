@@ -30,6 +30,7 @@
                     box-sizing: border-box;
                 }
 
+                /* PROFILE */
                 .card .profile--wrapper {
                     display: flex;
                     align-items: center;
@@ -61,6 +62,7 @@
                     height: 15px;
                 }
 
+                /* LEVEL SUMMARY */
                 .card .level--summary{
                     display: flex;
                     align-items: center;
@@ -97,6 +99,7 @@
                     gap: 0.3em
                 }
 
+                /* TROPHY SUMMARY */
                 .card .trophy--summary {
                     padding: 1rem;
                     background-color: rgb(47 46 53);
@@ -119,6 +122,7 @@
                     height: 60px;
                 }
 
+                /* SLIDER */
                 .card .slider {
                     position: relative;
                 }
@@ -178,61 +182,65 @@
                     margin-top: 0.4em;
                 }
 
-                .card .slider .slide--latest-trophies .trophy {
+                .card .slider .slide .slide--content > .row {
                     display: flex;
                     align-items: center;
                     padding: 0.75rem 1rem;
                     border-radius: 0.375rem;
                     background-image: linear-gradient(to bottom, #201F27, #2f2e35);
-                }
-
-                .card .slider .slide--latest-trophies .trophy {
                     border-bottom: 2px solid #FFFEFF;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .icon {
+                .card .slider .slide .slide--content > .row .icon {
                     min-width: 56px;
                     max-width: 56px;
                     margin-right: 0.75rem;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .icon img {
+                .card .slider .slide .slide--content > .row .icon img {
                     width: 100%;
                     border-radius: 0.375rem;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .wrapper {
+                .card .slider .slide .slide--content > .row .wrapper {
                     width: 100%;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .wrapper .info {
+                /* SLIDE TROPHY */
+                .card .slider .slide.slide--trophy .trophy .wrapper .info {
                     display: flex;
                     justify-content: space-between;
                     margin-top: 0.75rem;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .wrapper .info > div {
+                .card .slider .slide.slide--trophy .trophy .wrapper .info > div {
                     display: flex;
                     align-items: center;
                 }
 
-                .card .slider .slide--latest-trophies .trophy .wrapper .info .grade {
+                .card .slider .slide.slide--trophy .trophy .wrapper .info .grade {
                     margin-right: 0.5rem;
                 }
 
-                .card .slider .slide--latest-trophies .grade,
-                .card .slider .slide--latest-trophies .grade img {
+                .card .slider .slide.slide--trophy .grade,
+                .card .slider .slide.slide--trophy .grade img {
                     width: 20px;
                     height: 22px;
                 }
 
-                .card .slider .slide--latest-trophies .rarity,
-                .card .slider .slide--latest-trophies .rarity img {
+                .card .slider .slide.slide--trophy .rarity,
+                .card .slider .slide.slide--trophy .rarity img {
                     width: 25px;
                     height: 25px;
+                }
+
+                /* SLIDE GAME */
+                .card .slider .slide.slide--game .trophies img{
+                    width: 20px;
+                    height: 22px;
                 }
             </style>
 
@@ -240,74 +248,65 @@
                 <div class="profile--wrapper">
                     <div class="avatar"><img src="{{ image64(assets.avatar) }}"/></div>
                     <div class="name">
-                        <span>Robin Ingelbrecht</span>
+                        <span>{{ profile.name }}</span>
                         <img src="{{ image64(assets.ps_plus) }}"/>
                     </div>
                 </div>
                 <div class="level--summary">
                     <div class="level">
                         <img src="{{ image64(assets.level) }}"/>
-                        <span class="text-xs">Level 531</span>
+                        <span class="text-xs">Level {{ profile.level }}</span>
                     </div>
                     <div class="level--progress">
-                       42%
+                        {{ profile.level_progress }}%
                     </div>
                     <div class="total--trophies">
-                        <span>6087</span>
+                        <span>{{ profile.trophies.total }}</span>
                         <span class="text-xs">Total trophies</span>
                     </div>
                 </div>
                 <div class="trophy--summary text-xs">
                     <div class="trophy trophy--platinum">
                         <img src="{{ image64(assets.trophy.platinum) }}"/>
-                        <span>233</span>
+                        <span>{{ profile.trophies.platinum }}</span>
                     </div>
                     <div class="trophy trophy--gold">
                         <img src="{{ image64(assets.trophy.gold) }}"/>
-                        <span>2193</span>
+                        <span>{{ profile.trophies.gold }}</span>
                     </div>
                     <div class="trophy trophy--silver">
                         <img src="{{ image64(assets.trophy.silver) }}"/>
-                        <span>1325</span>
+                        <span>{{ profile.trophies.silver }}</span>
                     </div>
                     <div class="trophy trophy--bronze">
                         <img src="{{ image64(assets.trophy.bronze) }}"/>
-                        <span>2336</span>
+                        <span>{{ profile.trophies.bronze }}</span>
                     </div>
                 </div>
                 <div class="slider">
-                    <div class="slide slide--1 slide--latest-trophies">
+                    <div class="slide slide--1 slide--trophy">
                         <div class="slide--title">Latest trophies</div>
                         <div class="slide--content">
                             {% for trophy in latest_trophies %}
-                                <div class="trophy">
-                                    <div class="icon">
-                                        <img src="{{ image64(trophy.icon) }}"/>
-                                    </div>
-                                    <div class="wrapper">
-                                        <div class="title">{{ trophy.title }}</div>
-                                        <div class="description text-xs">{{ trophy.description }}</div>
-                                        <div class="info">
-                                            <div>
-                                                <div class="grade grade--bronze">
-                                                    <img src="{{ image64(trophy.grade) }}"/>
-                                                </div>
-                                                <div class="rarity rarity--rare">
-                                                    <img src="{{ image64(trophy.rarity) }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="earned-on text-xs">{{ trophy.earned_on }}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% include 'trophy.html.twig' with {'trophy': trophy} only %}
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="slide slide--2">
-                        Last played games
+                    <div class="slide slide--2 slide--game">
+                        <div class="slide--title">Played games</div>
+                        <div class="slide--content">
+                            {% for game in games_played %}
+                                {% include 'game.html.twig' with {'game': game, 'assets': assets} only %}
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="slide slide--3">
-                        Rarest trophies
+                    <div class="slide slide--3 slide--trophy">
+                        <div class="slide--title">Rarest trophies</div>
+                        <div class="slide--content">
+                            {% for trophy in rarest_trophies %}
+                                {% include 'trophy.html.twig' with {'trophy': trophy} only %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
