@@ -51,6 +51,12 @@ class CacheRebuilder
                     'weight' => 200,
                     'src' => dirname(__DIR__) . '/assets/fonts/poppins-normal-200.woff2',
                 ],
+                [
+                    'family' => 'Poppins',
+                    'style' => 'normal',
+                    'weight' => 400,
+                    'src' => dirname(__DIR__) . '/assets/fonts/poppins-normal-400.woff2',
+                ],
             ],
             'latest_trophies' => [
                 [
