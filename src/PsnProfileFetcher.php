@@ -33,10 +33,12 @@ class PsnProfileFetcher
                 'id' => '/href=[\S]*"\/trophies\/(?<value>[0-9]*)-[\S]*"/im',
                 'title' => '/<a class="title"[\s\S]*>(?<value>.*?)<\/a>/im',
                 'thumb' => '/<img src="https:\/\/i.psnprofiles.com\/games\/(?<value>[\S]*)" \/>/im',
+                'hasObtainedPlatinum' => '/Platinum[\s]*in <b>(?<value>.*?)<\/b>/im',
                 'trophiesTotal' => '/All[\s]*<b>(?<value>[\d]+)<\/b> Trophies/imU',
                 'trophiesGold' => '/<span class="icon-sprite gold"><\/span><span>(?<value>[\d]+)<\/span>/imU',
                 'trophiesSilver' => '/<span class="icon-sprite silver"><\/span><span>(?<value>[\d]+)<\/span>/imU',
                 'trophiesBronze' => '/<span class="icon-sprite bronze"><\/span><span>(?<value>[\d]+)<\/span>/imU',
+                'progress' => '/<div class=\"progress-bar\">[\s]*<span>(?<value>[\d]*)%<\/span>/im',
             ];
 
             $matches = [];
@@ -58,10 +60,12 @@ class PsnProfileFetcher
                 'id' => $matches['id'],
                 'title' => html_entity_decode($matches['title']),
                 'thumbnail' => 'https://i.psnprofiles.com/games/' . $matches['thumb'],
+                'hasObtainedPlatinum' => !empty($matches['hasObtainedPlatinum']),
                 'trophiesTotal' => (int)$matches['trophiesTotal'],
                 'trophiesGold' => (int)$matches['trophiesGold'],
                 'trophiesSilver' => (int)$matches['trophiesSilver'],
                 'trophiesBronze' => (int)$matches['trophiesBronze'],
+                'progress' => (int)$matches['progress'],
             ];
         }
 

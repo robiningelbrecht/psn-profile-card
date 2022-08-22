@@ -80,9 +80,9 @@ class CacheRebuilder
             'games_played' => array_map(fn(array $game) => [
                 'icon' => $game['thumbnail'],
                 'title' => $game['title'],
-                'progress' => 20,
+                'progress' => $game['progress'],
                 'trophies' => [
-                    'platinum' => 0,
+                    'platinum' => (int)$game['hasObtainedPlatinum'],
                     'gold' => $game['trophiesGold'],
                     'silver' => $game['trophiesSilver'],
                     'bronze' => $game['trophiesBronze'],
