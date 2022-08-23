@@ -21,19 +21,22 @@ class CacheRebuilder
 
     public function rebuild(): void
     {
+        $profile = $this->psnProfileFetcher->getProfile(self::PROFILE_NAME);
         $gamesPlayed = array_slice($this->psnProfileFetcher->getPlayedGames(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
+        $latestTrophies = array_slice($this->psnProfileFetcher->getLatestTrophies(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
+
         $template = $this->twig->load('card.html.twig');
         $render = $template->render([
             'profile' => [
                 'name' => 'Robin Ingelbrecht',
-                'level' => 531,
-                'level_progress' => 41,
+                'level' => $profile['level'],
+                'level_progress' => $profile['levelProgress'],
                 'trophies' => [
-                    'total' => 6087,
-                    'platinum' => 233,
-                    'gold' => 2193,
-                    'silver' => 1325,
-                    'bronze' => 2336,
+                    'total' => $profile['trophiesTotal'],
+                    'platinum' => $profile['trophiesPlatinum'],
+                    'gold' => $profile['trophiesGold'],
+                    'silver' => $profile['trophiesSilver'],
+                    'bronze' => $profile['trophiesBronze'],
                 ],
             ],
             'assets' => [
@@ -46,7 +49,7 @@ class CacheRebuilder
                     'silver' => dirname(__DIR__) . '/assets/trophies/silver.png',
                     'bronze' => dirname(__DIR__) . '/assets/trophies/bronze.png',
                 ],
-                'level' => dirname(__DIR__) . '/assets/levels/500-599.png',
+                'level' => $profile['level'] >= 999 ? dirname(__DIR__) . '/assets/levels/1000.png' : dirname(__DIR__) . '/assets/levels/' . (floor($profile['level'] / 100) * 100) . '-' . ((ceil($profile['level'] / 100) * 100) - 1) . '.png',
             ],
             // https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap
             'fonts' => [
@@ -57,26 +60,14 @@ class CacheRebuilder
                     'src' => dirname(__DIR__) . '/assets/fonts/poppins-normal-200.woff2',
                 ],
             ],
-            'latest_trophies' => [
-                [
-                    'icon' => 'https://playstation-trophy-cards.robiningelbrecht.be/assets/profile/trophies/2S69db6a.png',
-                    'title' => '1000 Talismans Shot',
-                    'description' => 'Shoot 1,000 talismans.',
-                    'game' => 'The Pathless',
-                    'grade' => dirname(__DIR__) . '/assets/trophies/bronze.png',
-                    'rarity' => dirname(__DIR__) . '/assets/rarity/ultra-rare.png',
-                    'earned_on' => '12/24/2021 1:17PM',
-                ],
-                [
-                    'icon' => 'https://playstation-trophy-cards.robiningelbrecht.be/assets/profile/trophies/2S69db6a.png',
-                    'title' => '1000 Talismans Shot',
-                    'description' => 'Shoot 1,000 talismans.',
-                    'game' => 'The Pathless',
-                    'grade' => dirname(__DIR__) . '/assets/trophies/bronze.png',
-                    'rarity' => dirname(__DIR__) . '/assets/rarity/rare.png',
-                    'earned_on' => '12/24/2021 1:17PM',
-                ],
-            ],
+            'latest_trophies' => array_map(fn(array $trophy) => [
+                'icon' => $trophy['thumbnail'],
+                'title' => $trophy['title'],
+                'game' => $trophy['game'],
+                'grade' => dirname(__DIR__) . '/assets/trophies/' . strtolower($trophy['grade']) . '.png',
+                'rarity' => dirname(__DIR__) . '/assets/rarity/' . strtolower($trophy['rarity']) . '.png',
+                'earned_on' => $trophy['earnedOn']->format('d-m-Y H:iA'),
+            ], $latestTrophies),
             'games_played' => array_map(fn(array $game) => [
                 'icon' => $game['thumbnail'],
                 'title' => $game['title'],

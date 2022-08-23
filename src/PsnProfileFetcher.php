@@ -12,7 +12,89 @@ class PsnProfileFetcher
     {
     }
 
-    public function getPlayedGames($psnProfile): array
+    public function getProfile(string $psnProfile): array
+    {
+        $response = $this->client->get('https://psnprofiles.com/' . $psnProfile);
+        $content = $response->getBody()->getContents();
+
+        $regexes = [
+            'level' => '/<li class="icon-sprite level">(?<value>[\d]*)<\/li>/im',
+            'levelProgress' => '/<div class="progress-bar level">[\s\S]*<div style="width: (?<value>[\d]*)%;"><\/div>[\s\S]*<\/div>/imU',
+            'trophiesTotal' => '/<li class="total">[\s]*<span class="icon-sprite"><\/span>[\s]*(?<value>[\S]*)[\s]*<\/li>/im',
+            'trophiesPlatinum' => '/<li class="platinum">[\s]*<span class="icon-sprite"><\/span>[\s]*(?<value>[\S]*)[\s]*<\/li>/im',
+            'trophiesGold' => '/<li class="gold">[\s]*<span class="icon-sprite"><\/span>[\s]*(?<value>[\S]*)[\s]*<\/li>/im',
+            'trophiesSilver' => '/<li class="silver">[\s]*<span class="icon-sprite"><\/span>[\s]*(?<value>[\S]*)[\s]*<\/li>/im',
+            'trophiesBronze' => '/<li class="bronze">[\s]*<span class="icon-sprite"><\/span>[\s]*(?<value>[\S]*)[\s]*<\/li>/im',
+        ];
+
+        $matches = [];
+        foreach ($regexes as $field => $regex) {
+            if (!preg_match($regex, $content, $match)) {
+                continue;
+            }
+
+            $matches[$field] = $match['value'];
+        }
+
+        return [
+            'level' => (int)$matches['level'],
+            'levelProgress' => (int)$matches['levelProgress'],
+            'trophiesTotal' => (int) str_replace(',', '', $matches['trophiesTotal']),
+            'trophiesPlatinum' => (int) str_replace(',', '', $matches['trophiesPlatinum']),
+            'trophiesGold' => (int) str_replace(',', '', $matches['trophiesGold']),
+            'trophiesSilver' => (int) str_replace(',', '', $matches['trophiesSilver']),
+            'trophiesBronze' => (int) str_replace(',', '', $matches['trophiesBronze']),
+        ];
+    }
+
+    public function getLatestTrophies(string $psnProfile): array
+    {
+        $latestTrophies = [];
+        $response = $this->client->get('https://psnprofiles.com/' . $psnProfile . '/log');
+
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException('Could not fetch profile ' . $psnProfile);
+        }
+
+        preg_match_all('/<tr.*?>(?<trophies>[\s\S]*)<\/tr>/imU', $response->getBody()->getContents(), $rows);
+
+        foreach ($rows['trophies'] as $trophy) {
+            $regexes = [
+                'title' => '/<a class="title" href="[\S]*">(?<value>.*?)<\/a>/im',
+                'thumb' => '/<img class="trophy" src="https:\/\/i.psnprofiles.com\/games\/(?<value>[\S]*)"[\s\S]*\/>/im',
+                'game' => '/<img class="game" src="[\S]*" title="(?<value>.*?)">/im',
+                'grade' => '/<img title="[\S]*" src="\/lib\/img\/icons\/[\d]*-(?<value>.*?).png">/im',
+                'rarity' => '/<span class="typo-bottom"><nobr>(?<value>(?!Achievers|Owners).*?)<\/nobr>/im',
+            ];
+
+            $matches = [];
+            foreach ($regexes as $field => $regex) {
+                if (!preg_match($regex, $trophy, $match)) {
+                    continue;
+                }
+
+                $matches[$field] = $match['value'];
+            }
+
+            preg_match('/<span class="typo-top-date"><nobr>(?<day>.*?)([\d]*)<sup>[\S\s]*<\/sup>(?<monthYear>.*?)<\/nobr><\/span>/imU', $trophy, $date);
+            preg_match('/<span class="typo-bottom-date"><nobr>(?<time>.*?)<\/nobr><\/span>/imU', $trophy, $time);
+
+            $matches['earnedOn'] = \DateTimeImmutable::createFromFormat('d M Y h:i:s A', $date['day'] . $date['monthYear'] . ' ' . $time['time']);
+
+            $latestTrophies[] = [
+                'title' => html_entity_decode($matches['title']),
+                'thumbnail' => 'https://i.psnprofiles.com/games/' . $matches['thumb'],
+                'game' => $matches['game'],
+                'grade' => $matches['grade'],
+                'rarity' => $matches['rarity'],
+                'earnedOn' => $matches['earnedOn'],
+            ];
+        }
+
+        return $latestTrophies;
+    }
+
+    public function getPlayedGames(string $psnProfile): array
     {
         $playedGames = [];
         $response = $this->client->get('https://psnprofiles.com/' . $psnProfile . '?ajax=1&page=0');
