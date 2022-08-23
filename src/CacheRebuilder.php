@@ -24,6 +24,7 @@ class CacheRebuilder
         $profile = $this->psnProfileFetcher->getProfile(self::PROFILE_NAME);
         $gamesPlayed = array_slice($this->psnProfileFetcher->getPlayedGames(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
         $latestTrophies = array_slice($this->psnProfileFetcher->getLatestTrophies(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
+        $trophyCabinet =  array_slice($this->psnProfileFetcher->getTrophyCabinet(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
 
         $template = $this->twig->load('card.html.twig');
         $render = $template->render([
@@ -79,17 +80,13 @@ class CacheRebuilder
                     'bronze' => $game['trophiesBronze'],
                 ],
             ], $gamesPlayed),
-            'rarest_trophies' => [
-                [
-                    'icon' => 'https://i.psnprofiles.com/games/4d4c0b/trophies/17M070c1d.png',
-                    'title' => 'Blue series clear',
-                    'description' => 'Get a silver medal on every blue track.',
-                    'game' => 'Track Mania: Turbo',
-                    'grade' => dirname(__DIR__) . '/assets/trophies/silver.png',
-                    'rarity' => dirname(__DIR__) . '/assets/rarity/ultra-rare.png',
-                    'earned_on' => '12/24/2021 1:17PM',
-                ],
-            ],
+            'trophy_cabinet' => array_map(fn(array $trophy) => [
+                'icon' => $trophy['thumbnail'],
+                'title' => $trophy['title'],
+                'game' => $trophy['game'],
+                'grade' => dirname(__DIR__) . '/assets/trophies/' . strtolower($trophy['grade']) . '.png',
+                'rarity' => dirname(__DIR__) . '/assets/rarity/' . strtolower($trophy['rarity']) . '.png',
+            ], $trophyCabinet),
         ]);
 
         Cache::set($render);

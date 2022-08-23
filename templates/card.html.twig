@@ -329,9 +329,9 @@
                         </div>
                     </div>
                     <div class="slide slide--3 slide--trophy">
-                        <div class="slide--title">Rarest trophies</div>
+                        <div class="slide--title">Trophy cabinet</div>
                         <div class="slide--content">
-                            {% for trophy in rarest_trophies %}
+                            {% for trophy in trophy_cabinet %}
                                 {% include 'trophy.html.twig' with {'trophy': trophy} only %}
                             {% endfor %}
                         </div>

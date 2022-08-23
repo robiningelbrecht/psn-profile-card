@@ -15,6 +15,10 @@ class PsnProfileFetcher
     public function getProfile(string $psnProfile): array
     {
         $response = $this->client->get('https://psnprofiles.com/' . $psnProfile);
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException('Could not fetch profile ' . $psnProfile);
+        }
+
         $content = $response->getBody()->getContents();
 
         $regexes = [
@@ -39,11 +43,11 @@ class PsnProfileFetcher
         return [
             'level' => (int)$matches['level'],
             'levelProgress' => (int)$matches['levelProgress'],
-            'trophiesTotal' => (int) str_replace(',', '', $matches['trophiesTotal']),
-            'trophiesPlatinum' => (int) str_replace(',', '', $matches['trophiesPlatinum']),
-            'trophiesGold' => (int) str_replace(',', '', $matches['trophiesGold']),
-            'trophiesSilver' => (int) str_replace(',', '', $matches['trophiesSilver']),
-            'trophiesBronze' => (int) str_replace(',', '', $matches['trophiesBronze']),
+            'trophiesTotal' => (int)str_replace(',', '', $matches['trophiesTotal']),
+            'trophiesPlatinum' => (int)str_replace(',', '', $matches['trophiesPlatinum']),
+            'trophiesGold' => (int)str_replace(',', '', $matches['trophiesGold']),
+            'trophiesSilver' => (int)str_replace(',', '', $matches['trophiesSilver']),
+            'trophiesBronze' => (int)str_replace(',', '', $matches['trophiesBronze']),
         ];
     }
 
@@ -92,6 +96,50 @@ class PsnProfileFetcher
         }
 
         return $latestTrophies;
+    }
+
+    public function getTrophyCabinet(string $psnProfile): array
+    {
+        $trophyCabinet = [];
+        $response = $this->client->get('https://psnprofiles.com/' . $psnProfile);
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException('Could not fetch profile ' . $psnProfile);
+        }
+
+        preg_match_all('/<tr.*?>(?<trophies>[\s\S]*)<\/tr>/imU', $response->getBody()->getContents(), $rows);
+
+        foreach ($rows['trophies'] as $game) {
+            $regexes = [
+                'title' => '/<a class="small-title" href="[\S]*">(?<value>.*?)<\/a>/im',
+                'thumb' => '/<img src="https:\/\/i.psnprofiles.com\/games\/(?<value>[\S]*)" \/>/im',
+                'game' => '/<a href="[\S]*" rel="nofollow">(?<value>[\S\s]*)<\/a>/imU',
+                'grade' => '/<img src="\/lib\/img\/icons\/[\S]*" title="(?<value>[\S]*)" alt="[\S]*" \/>/im',
+                'rarity' => '/<span class="typo-bottom"><nobr>(?<value>[\S]*)<\/nobr><\/span>/im',
+            ];
+
+            $matches = [];
+            foreach ($regexes as $field => $regex) {
+                if (!preg_match($regex, $game, $match)) {
+                    continue;
+                }
+
+                $matches[$field] = $match['value'];
+            }
+
+            if (count($matches) != 5) {
+                continue;
+            }
+
+            $trophyCabinet[] = [
+                'title' => html_entity_decode($matches['title']),
+                'thumbnail' => 'https://i.psnprofiles.com/games/' . $matches['thumb'],
+                'game' => $matches['game'],
+                'grade' => $matches['grade'],
+                'rarity' => $matches['rarity'],
+            ];
+        }
+
+        return $trophyCabinet;
     }
 
     public function getPlayedGames(string $psnProfile): array
