@@ -24,10 +24,9 @@ class CacheRebuilder
         $profile = $this->psnProfileFetcher->getProfile(self::PROFILE_NAME);
         $gamesPlayed = array_slice($this->psnProfileFetcher->getPlayedGames(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
         $latestTrophies = array_slice($this->psnProfileFetcher->getLatestTrophies(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
-        $trophyCabinet =  array_slice($this->psnProfileFetcher->getTrophyCabinet(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
+        $trophyCabinet = array_slice($this->psnProfileFetcher->getTrophyCabinet(self::PROFILE_NAME), 0, self::ROWS_PER_SLIDE);
 
-        $template = $this->twig->load('card.html.twig');
-        $render = $template->render([
+        $templateVariables = [
             'profile' => [
                 'name' => 'Robin Ingelbrecht',
                 'level' => $profile['level'],
@@ -87,8 +86,14 @@ class CacheRebuilder
                 'grade' => dirname(__DIR__) . '/assets/trophies/' . strtolower($trophy['grade']) . '.png',
                 'rarity' => dirname(__DIR__) . '/assets/rarity/' . strtolower($trophy['rarity']) . '.png',
             ], $trophyCabinet),
-        ]);
+        ];
 
-        Cache::set($render);
+        $template = $this->twig->load('svg.html.twig');
+        $render = $template->render($templateVariables);
+        Cache::forSvg()->set($render);
+
+        $template = $this->twig->load('debug.html.twig');
+        $render = $template->render($templateVariables);
+        Cache::forDebug()->set($render);
     }
 }

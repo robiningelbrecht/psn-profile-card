@@ -4,21 +4,37 @@ namespace App;
 
 class Cache
 {
-    private static function file(): string
+    private const SVG_FILE = 'cache-svg';
+    private const DEBUG_FILE = 'cache-debug';
+    private string $file;
+
+    private function __construct(
+        string $file
+    )
     {
-        return dirname(__DIR__) . '/api/cache';
+        $this->file = dirname(__DIR__) . '/api/' . $file;
     }
 
-    public static function get(): string
+    public function get(): string
     {
-        if (!file_exists(static::file())) {
+        if (!file_exists($this->file)) {
             throw new \RuntimeException('Cache is empty');
         }
-        return file_get_contents(static::file());
+        return file_get_contents($this->file);
     }
 
-    public static function set(string $content): string
+    public function set(string $content): string
     {
-        return file_put_contents(static::file(), $content);
+        return file_put_contents($this->file, $content);
+    }
+
+    public static function forSvg(): self
+    {
+        return new self(self::SVG_FILE);
+    }
+
+    public static function forDebug(): self
+    {
+        return new self(self::DEBUG_FILE);
     }
 }

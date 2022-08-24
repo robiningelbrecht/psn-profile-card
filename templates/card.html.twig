@@ -1,343 +1,340 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" width="400" height="660">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-            <style>
-                {% for font in fonts %}
-                @font-face {
-                    font-family: {{ font.family }};
-                    font-style: {{ font.style }};
-                    font-weight: {{ font.weight }};
-                    src: url({{ font64(font.src) }}) format("woff2");
-                    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-                }
+<style>
+    {% for font in fonts %}
+    @font-face {
+        font-family: {{ font.family }};
+        font-style: {{ font.style }};
+        font-weight: {{ font.weight }};
+        src: url({{ font64(font.src) }}) format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    {% endfor %}
 
+    .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+
+    .card {
+        font-family: Poppins, sans-serif;
+        color: rgb(255 254 255);
+        font-weight: 200;
+        width: 400px;
+        height: 660px;
+        padding: 1em;
+        background-image: linear-gradient(to bottom, #1E1D21, #24232A);
+        border-radius: 0.375rem;
+        box-sizing: border-box;
+    }
+
+    /* PROFILE */
+    .card .profile--wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        margin-bottom: 1em;
+    }
+
+    .card .profile--wrapper .avatar {
+        position: relative;
+        width: 50px;
+        height: 50px;
+    }
+
+    .card .profile--wrapper .avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .card .profile--wrapper .name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .card .profile--wrapper .name img {
+        width: 15px;
+        height: 15px;
+    }
+
+    /* LEVEL SUMMARY */
+    .card .level--summary{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1em;
+    }
+
+    .card .level--summary > div {
+        width: 33%;
+    }
+
+    .card .level--summary .level{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card .level--summary .level img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .card .level--summary .level--progress{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        padding: 10px;
+        border: 2px solid;
+    }
+
+    .card .level--summary .total--trophies{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3em
+    }
+
+    /* TROPHY SUMMARY */
+    .card .trophy--summary {
+        padding: 1rem;
+        background-color: rgb(47 46 53);
+        border-radius: 0.375rem;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+    }
+
+    .card .trophy--summary .trophy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 60px;
+        height: 80px;
+    }
+
+    .card .trophy--summary .trophy img {
+        height: 60px;
+    }
+
+    /* SLIDER */
+    .card .slider {
+        position: relative;
+    }
+
+    .card .slider .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        opacity: 0;
+        -webkit-backface-visibility: hidden;
+        -webkit-animation: slideAnimation 15s linear infinite 0s;
+        -moz-animation: slideAnimation 15s linear infinite 0s;
+        -o-animation: slideAnimation 15s linear infinite 0s;
+        animation: slideAnimation 15s linear infinite 0s;
+    }
+
+    .card .slider .slide.slide--2 {
+        -webkit-animation-delay: 5s;
+        -moz-animation-delay: 5s;
+        -o-animation-delay: 5s;
+        animation-delay: 5s;
+    }
+
+    .card .slider .slide.slide--3 {
+        -webkit-animation-delay: 10s;
+        -moz-animation-delay: 10s;
+        -o-animation-delay: 10s;
+        animation-delay: 10s;
+    }
+
+    @keyframes slideAnimation {
+        0% {
+            opacity: 0;
+            animation-timing-function: ease-in;
+        }
+
+        2% {
+            opacity: 1;
+            animation-timing-function: ease-out;
+        }
+
+        31% {
+            opacity: 1;
+        }
+
+        33% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 0
+        }
+    }
+
+    .card .slider .slide .slide--content {
+        margin-top: 0.4em;
+    }
+
+    .card .slider .slide .slide--content > .row {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 0.375rem;
+        background-image: linear-gradient(to bottom, #201F27, #2f2e35);
+        border-bottom: 2px solid #FFFEFF;
+    }
+
+    .card .slider .slide .slide--content > .row .icon {
+        min-width: 56px;
+        max-width: 56px;
+        margin-right: 0.75rem;
+    }
+
+    .card .slider .slide .slide--content > .row .icon img {
+        width: 100%;
+        border-radius: 0.375rem;
+    }
+
+    .card .slider .slide .slide--content > .row .wrapper {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* SLIDE TROPHY */
+    .card .slider .slide.slide--trophy .trophy .wrapper .info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.75rem;
+    }
+
+    .card .slider .slide.slide--trophy .trophy .wrapper .info > div {
+        display: flex;
+        align-items: center;
+    }
+
+    .card .slider .slide.slide--trophy .trophy .wrapper .info .grade {
+        margin-right: 0.5rem;
+    }
+
+    .card .slider .slide.slide--trophy .grade,
+    .card .slider .slide.slide--trophy .grade img {
+        width: 20px;
+        height: 22px;
+    }
+
+    .card .slider .slide.slide--trophy .rarity,
+    .card .slider .slide.slide--trophy .rarity img {
+        width: 25px;
+        height: 25px;
+    }
+
+    /* SLIDE GAME */
+    .card .slider .slide.slide--game .trophies{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card .slider .slide.slide--game .title{
+        margin-bottom: 10px;
+    }
+    .card .slider .slide.slide--game .trophies img{
+        width: 25px;
+        height: 27px;
+    }
+    .card .slider .slide.slide--game .trophies .inner{
+        display: flex;
+    }
+    .card .slider .slide.slide--game .trophies .inner .trophy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 12px;
+    }
+    .card .slider .slide.slide--game .trophies .progress{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        padding: 10px;
+        border: 2px solid;
+    }
+</style>
+
+<div class="card">
+    <div class="profile--wrapper">
+        <div class="avatar"><img src="{{ image64(assets.avatar) }}"/></div>
+        <div class="name">
+            <span>{{ profile.name }}</span>
+            <img src="{{ image64(assets.ps_plus) }}"/>
+        </div>
+    </div>
+    <div class="level--summary">
+        <div class="level">
+            <img src="{{ image64(assets.level) }}"/>
+            <span class="text-xs">Level {{ profile.level }}</span>
+        </div>
+        <div class="level--progress">
+            {{ profile.level_progress }}%
+        </div>
+        <div class="total--trophies">
+            <span>{{ profile.trophies.total }}</span>
+            <span class="text-xs">Total trophies</span>
+        </div>
+    </div>
+    <div class="trophy--summary text-xs">
+        <div class="trophy trophy--platinum">
+            <img src="{{ image64(assets.trophy.platinum) }}"/>
+            <span>{{ profile.trophies.platinum }}</span>
+        </div>
+        <div class="trophy trophy--gold">
+            <img src="{{ image64(assets.trophy.gold) }}"/>
+            <span>{{ profile.trophies.gold }}</span>
+        </div>
+        <div class="trophy trophy--silver">
+            <img src="{{ image64(assets.trophy.silver) }}"/>
+            <span>{{ profile.trophies.silver }}</span>
+        </div>
+        <div class="trophy trophy--bronze">
+            <img src="{{ image64(assets.trophy.bronze) }}"/>
+            <span>{{ profile.trophies.bronze }}</span>
+        </div>
+    </div>
+    <div class="slider">
+        <div class="slide slide--1 slide--trophy">
+            <div class="slide--title">Latest trophies</div>
+            <div class="slide--content">
+                {% for trophy in latest_trophies %}
+                    {% include 'trophy.html.twig' with {'trophy': trophy} only %}
                 {% endfor %}
-
-                .text-xs {
-                    font-size: 0.75rem;
-                    line-height: 1rem;
-                }
-
-                .card {
-                    font-family: Poppins, sans-serif;
-                    color: rgb(255 254 255);
-                    font-weight: 200;
-                    width: 400px;
-                    height: 660px;
-                    padding: 1em;
-                    background-image: linear-gradient(to bottom, #1E1D21, #24232A);
-                    border-radius: 0.375rem;
-                    box-sizing: border-box;
-                }
-
-                /* PROFILE */
-                .card .profile--wrapper {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5em;
-                    margin-bottom: 1em;
-                }
-
-                .card .profile--wrapper .avatar {
-                    position: relative;
-                    width: 50px;
-                    height: 50px;
-                }
-
-                .card .profile--wrapper .avatar img {
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                }
-
-                .card .profile--wrapper .name {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
-                }
-
-                .card .profile--wrapper .name img {
-                    width: 15px;
-                    height: 15px;
-                }
-
-                /* LEVEL SUMMARY */
-                .card .level--summary{
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-around;
-                    margin-bottom: 1em;
-                }
-
-                .card .level--summary .level{
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                .card .level--summary .level img {
-                    width: 60px;
-                    height: 60px;
-                }
-
-                .card .level--summary .level--progress{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    width: 34px;
-                    height: 34px;
-                    padding: 10px;
-                    border: 2px solid;
-                }
-
-                .card .level--summary .total--trophies{
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 0.3em
-                }
-
-                /* TROPHY SUMMARY */
-                .card .trophy--summary {
-                    padding: 1rem;
-                    background-color: rgb(47 46 53);
-                    border-radius: 0.375rem;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 1em;
-                }
-
-                .card .trophy--summary .trophy {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: space-between;
-                    width: 60px;
-                    height: 80px;
-                }
-
-                .card .trophy--summary .trophy img {
-                    height: 60px;
-                }
-
-                /* SLIDER */
-                .card .slider {
-                    position: relative;
-                }
-
-                .card .slider .slide {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 0;
-                    opacity: 0;
-                    -webkit-backface-visibility: hidden;
-                    -webkit-animation: slideAnimation 15s linear infinite 0s;
-                    -moz-animation: slideAnimation 15s linear infinite 0s;
-                    -o-animation: slideAnimation 15s linear infinite 0s;
-                    animation: slideAnimation 15s linear infinite 0s;
-                }
-
-                .card .slider .slide.slide--2 {
-                    -webkit-animation-delay: 5s;
-                    -moz-animation-delay: 5s;
-                    -o-animation-delay: 5s;
-                    animation-delay: 5s;
-                }
-
-                .card .slider .slide.slide--3 {
-                    -webkit-animation-delay: 10s;
-                    -moz-animation-delay: 10s;
-                    -o-animation-delay: 10s;
-                    animation-delay: 10s;
-                }
-
-                @keyframes slideAnimation {
-                    0% {
-                        opacity: 0;
-                        animation-timing-function: ease-in;
-                    }
-
-                    2% {
-                        opacity: 1;
-                        animation-timing-function: ease-out;
-                    }
-
-                    31% {
-                        opacity: 1;
-                    }
-
-                    33% {
-                        opacity: 0;
-                    }
-
-                    100% {
-                        opacity: 0
-                    }
-                }
-
-                .card .slider .slide .slide--content {
-                    margin-top: 0.4em;
-                }
-
-                .card .slider .slide .slide--content > .row {
-                    display: flex;
-                    align-items: center;
-                    padding: 0.75rem 1rem;
-                    border-radius: 0.375rem;
-                    background-image: linear-gradient(to bottom, #201F27, #2f2e35);
-                    border-bottom: 2px solid #FFFEFF;
-                }
-
-                .card .slider .slide .slide--content > .row .icon {
-                    min-width: 56px;
-                    max-width: 56px;
-                    margin-right: 0.75rem;
-                }
-
-                .card .slider .slide .slide--content > .row .icon img {
-                    width: 100%;
-                    border-radius: 0.375rem;
-                }
-
-                .card .slider .slide .slide--content > .row .wrapper {
-                    width: 100%;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                /* SLIDE TROPHY */
-                .card .slider .slide.slide--trophy .trophy .wrapper .info {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 0.75rem;
-                }
-
-                .card .slider .slide.slide--trophy .trophy .wrapper .info > div {
-                    display: flex;
-                    align-items: center;
-                }
-
-                .card .slider .slide.slide--trophy .trophy .wrapper .info .grade {
-                    margin-right: 0.5rem;
-                }
-
-                .card .slider .slide.slide--trophy .grade,
-                .card .slider .slide.slide--trophy .grade img {
-                    width: 20px;
-                    height: 22px;
-                }
-
-                .card .slider .slide.slide--trophy .rarity,
-                .card .slider .slide.slide--trophy .rarity img {
-                    width: 25px;
-                    height: 25px;
-                }
-
-                /* SLIDE GAME */
-                .card .slider .slide.slide--game .trophies{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                .card .slider .slide.slide--game .title{
-                    margin-bottom: 10px;
-                }
-                .card .slider .slide.slide--game .trophies img{
-                    width: 25px;
-                    height: 27px;
-                }
-                .card .slider .slide.slide--game .trophies .inner{
-                    display: flex;
-                }
-                .card .slider .slide.slide--game .trophies .inner .trophy {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-right: 12px;
-                }
-                .card .slider .slide.slide--game .trophies .progress{
-                    font-size: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                    width: 16px;
-                    height: 16px;
-                    padding: 10px;
-                    border: 2px solid;
-                }
-            </style>
-
-            <div class="card">
-                <div class="profile--wrapper">
-                    <div class="avatar"><img src="{{ image64(assets.avatar) }}"/></div>
-                    <div class="name">
-                        <span>{{ profile.name }}</span>
-                        <img src="{{ image64(assets.ps_plus) }}"/>
-                    </div>
-                </div>
-                <div class="level--summary">
-                    <div class="level">
-                        <img src="{{ image64(assets.level) }}"/>
-                        <span class="text-xs">Level {{ profile.level }}</span>
-                    </div>
-                    <div class="level--progress">
-                        {{ profile.level_progress }}%
-                    </div>
-                    <div class="total--trophies">
-                        <span>{{ profile.trophies.total }}</span>
-                        <span class="text-xs">Total trophies</span>
-                    </div>
-                </div>
-                <div class="trophy--summary text-xs">
-                    <div class="trophy trophy--platinum">
-                        <img src="{{ image64(assets.trophy.platinum) }}"/>
-                        <span>{{ profile.trophies.platinum }}</span>
-                    </div>
-                    <div class="trophy trophy--gold">
-                        <img src="{{ image64(assets.trophy.gold) }}"/>
-                        <span>{{ profile.trophies.gold }}</span>
-                    </div>
-                    <div class="trophy trophy--silver">
-                        <img src="{{ image64(assets.trophy.silver) }}"/>
-                        <span>{{ profile.trophies.silver }}</span>
-                    </div>
-                    <div class="trophy trophy--bronze">
-                        <img src="{{ image64(assets.trophy.bronze) }}"/>
-                        <span>{{ profile.trophies.bronze }}</span>
-                    </div>
-                </div>
-                <div class="slider">
-                    <div class="slide slide--1 slide--trophy">
-                        <div class="slide--title">Latest trophies</div>
-                        <div class="slide--content">
-                            {% for trophy in latest_trophies %}
-                                {% include 'trophy.html.twig' with {'trophy': trophy} only %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="slide slide--2 slide--game">
-                        <div class="slide--title">Played games</div>
-                        <div class="slide--content">
-                            {% for game in games_played %}
-                                {% include 'game.html.twig' with {'game': game, 'assets': assets} only %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="slide slide--3 slide--trophy">
-                        <div class="slide--title">Trophy cabinet</div>
-                        <div class="slide--content">
-                            {% for trophy in trophy_cabinet %}
-                                {% include 'trophy.html.twig' with {'trophy': trophy} only %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-    </foreignObject>
-</svg>
+        <div class="slide slide--2 slide--game">
+            <div class="slide--title">Played games</div>
+            <div class="slide--content">
+                {% for game in games_played %}
+                    {% include 'game.html.twig' with {'game': game, 'assets': assets} only %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="slide slide--3 slide--trophy">
+            <div class="slide--title">Trophy cabinet</div>
+            <div class="slide--content">
+                {% for trophy in trophy_cabinet %}
+                    {% include 'trophy.html.twig' with {'trophy': trophy} only %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
