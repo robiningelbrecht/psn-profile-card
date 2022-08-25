@@ -203,6 +203,11 @@
     .card .slider .slide .slide--content > .row .wrapper {
         width: 100%;
         overflow: hidden;
+    }
+
+    .card .slider .slide .slide--content > .row .title,
+    .card .slider .slide .slide--content > .row .description{
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
