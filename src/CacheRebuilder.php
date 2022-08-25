@@ -64,8 +64,8 @@ class CacheRebuilder
                 'icon' => $trophy['thumbnail'],
                 'title' => $trophy['title'],
                 'game' => $trophy['game'],
-                'grade' => dirname(__DIR__) . '/assets/trophies/' . strtolower($trophy['grade']) . '.png',
-                'rarity' => dirname(__DIR__) . '/assets/rarity/' . strtolower($trophy['rarity']) . '.png',
+                'grade' => dirname(__DIR__) . '/assets/trophies/' . Helper::toValidImageName($trophy['grade']) . '.png',
+                'rarity' => dirname(__DIR__) . '/assets/rarity/' . Helper::toValidImageName($trophy['rarity']) . '.png',
                 'earned_on' => $trophy['earnedOn']->format('d-m-Y H:iA'),
             ], $latestTrophies),
             'games_played' => array_map(fn(array $game) => [
@@ -83,8 +83,8 @@ class CacheRebuilder
                 'icon' => $trophy['thumbnail'],
                 'title' => $trophy['title'],
                 'game' => $trophy['game'],
-                'grade' => dirname(__DIR__) . '/assets/trophies/' . strtolower($trophy['grade']) . '.png',
-                'rarity' => dirname(__DIR__) . '/assets/rarity/' . strtolower($trophy['rarity']) . '.png',
+                'grade' => dirname(__DIR__) . '/assets/trophies/' . Helper::toValidImageName($trophy['grade']) . '.png',
+                'rarity' => dirname(__DIR__) . '/assets/rarity/' . Helper::toValidImageName($trophy['rarity']) . '.png',
             ], $trophyCabinet),
         ];
 
