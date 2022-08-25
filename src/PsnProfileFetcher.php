@@ -88,7 +88,7 @@ class PsnProfileFetcher
             $latestTrophies[] = [
                 'title' => html_entity_decode($matches['title']),
                 'thumbnail' => 'https://i.psnprofiles.com/games/' . $matches['thumb'],
-                'game' => $matches['game'],
+                'game' => html_entity_decode($matches['game']),
                 'grade' => $matches['grade'],
                 'rarity' => $matches['rarity'],
                 'earnedOn' => $matches['earnedOn'],
@@ -133,7 +133,7 @@ class PsnProfileFetcher
             $trophyCabinet[] = [
                 'title' => html_entity_decode($matches['title']),
                 'thumbnail' => 'https://i.psnprofiles.com/games/' . $matches['thumb'],
-                'game' => $matches['game'],
+                'game' => html_entity_decode($matches['game']),
                 'grade' => $matches['grade'],
                 'rarity' => $matches['rarity'],
             ];
