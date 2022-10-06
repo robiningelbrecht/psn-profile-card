@@ -5,6 +5,7 @@ namespace App;
 class Cache
 {
     private const SVG_FILE = 'cache-svg';
+    private const SVG_FILE_MINIMAL = 'cache-svg-minimal';
     private const DEBUG_FILE = 'cache-debug';
     private string $file;
 
@@ -31,6 +32,12 @@ class Cache
     public static function forSvg(): self
     {
         return new self(self::SVG_FILE);
+    }
+
+
+    public static function forSvgMinimal(): self
+    {
+        return new self(self::SVG_FILE_MINIMAL);
     }
 
     public static function forDebug(): self

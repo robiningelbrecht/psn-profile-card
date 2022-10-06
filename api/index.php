@@ -13,6 +13,10 @@ $app->get('/', function (ServerRequestInterface $request, ResponseInterface $res
     $response->getBody()->write(Cache::forSvg()->get());
     return $response->withHeader('Content-Type', 'image/svg+xml');
 });
+$app->get('/minimal', function (ServerRequestInterface $request, ResponseInterface $response) {
+    $response->getBody()->write(Cache::forSvgMinimal()->get());
+    return $response->withHeader('Content-Type', 'image/svg+xml');
+});
 $app->get('/debug', function (ServerRequestInterface $request, ResponseInterface $response) {
     $response->getBody()->write(Cache::forDebug()->get());
     return $response;

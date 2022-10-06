@@ -92,6 +92,10 @@ class CacheRebuilder
         $render = $template->render($templateVariables);
         Cache::forSvg()->set($render);
 
+        $template = $this->twig->load('svg-minimal.html.twig');
+        $render = $template->render($templateVariables);
+        Cache::forSvgMinimal()->set($render);
+
         $template = $this->twig->load('debug.html.twig');
         $render = $template->render($templateVariables);
         Cache::forDebug()->set($render);
